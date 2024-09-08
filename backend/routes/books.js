@@ -17,12 +17,22 @@ router.get('/',async (req,res) => {
  })
 
 
- router.delete('/',async(req,res) => {
-    let data = await Books
-    let result = await data.deleteOne({_id:(req.params.id)})
-    res.send(result)
+//  router.delete('/',async(req,res) => {
+//     let data = await Books
+//     let result = await data.deleteOne({_id:(req.params.id)})
+//     res.send(result)
     
-})
+// })
+
+router.delete('/user/:id', async (req, res) => {
+    try {
+      const userId = req.params.id;
+      await Books.findByIdAndDelete(userId);  // Delete user from MongoDB
+      res.status(200).json({ message: 'User deleted successfully' });
+    } catch (err) {
+      res.status(500).json({ message: 'Error deleting user', error: err });
+    }
+  });
 
 
 

@@ -44,6 +44,16 @@ router.put('/', async (req, res) => {
     }
 });
 
+router.delete('/contact/:id', async (req, res) => {
+    try {
+      const userId = req.params.id;
+      await User1.findByIdAndDelete(userId);  // Delete user from MongoDB
+      res.status(200).json({ message: 'User deleted successfully' });
+    } catch (err) {
+      res.status(500).json({ message: 'Error deleting user', error: err });
+    }
+  });
+
 
 
 

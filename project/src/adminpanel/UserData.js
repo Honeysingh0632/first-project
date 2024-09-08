@@ -24,7 +24,7 @@ const UserData = () => {
                   <div className="container-fluid ms-3">
                     <div className="row">
                      
-                              <table class="table table-light table-hover table-bordered">
+                              <table class="table  table-hover table-bordered">
                                     <thead>
                                         <tr>
                                         <th scope="col">#</th>

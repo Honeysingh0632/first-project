@@ -1,10 +1,14 @@
 import React,{useEffect,useState} from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import axios from "axios";
 
 const BookSugguestData = ({id}) => {
 
     const [data,Setdata] =useState([]);
+    const [users, setUsers] = useState([]);
+    const navigate =useNavigate();
 
     useEffect(() => {
         fetch('http://localhost:8000/getbook').then((result) => {
@@ -16,19 +20,22 @@ const BookSugguestData = ({id}) => {
         })
     },[])
 
-    const deleteItem = async (id) => {
+    const deleteUser = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:8000/books/delete/${id}`);
-            console.log(response.data.message);
+            await axios.delete(`http://localhost:8000/user/${id}`);
+            setUsers(users.filter(user => user._id !== id)); // Update state after deletion
+           
+            toast.success('User deleted successfully  ')
+            window.location.reload()
+            // navigate('/AdminPanel/BookSugguestData')
+
+            
         } catch (error) {
-            console.error('Error deleting item:', error);
+            console.error( error);
         }
     };
 
-    const handleDelete = () => {
-        deleteItem(id);
-        console.log(id);
-    };
+ 
 
     return(
         <>
@@ -36,7 +43,7 @@ const BookSugguestData = ({id}) => {
         <h1 class="text-center fs-1 ms-4 "> Book Sugguest Details</h1>
             <div className="container-fluid ms-3  ">
             <div className="row">
-            <table class="table table-light table-hover table-bordered">
+            <table class="table  table-hover table-bordered">
                                     <thead>
                                         <tr>
                                         <th scope="col">#</th>
@@ -45,7 +52,7 @@ const BookSugguestData = ({id}) => {
                                         <th scope="col">Your Email</th>
                                         <th scope="col">Book Name</th>
                                         <th scope="col">Author Name</th>
-                                        {/* <th scope="col">delete Name</th> */}
+                                        <th scope="col">delete Name</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -58,9 +65,9 @@ const BookSugguestData = ({id}) => {
                                         <td >{value.bookname}</td>
                                         <td >{value.authorname}</td>
                                      
-                                        {/* <td >
+                                        <td >
                                             <button className="btn btn-danger"
-                                        onClick={() => { handleDelete(value._id)}}>Delete</button></td> */}
+                                        onClick={() => deleteUser(value._id)}>Delete</button></td>
                                         </tr>
                                         )} 
                                     </tbody>

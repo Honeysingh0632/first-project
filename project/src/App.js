@@ -18,6 +18,7 @@ import Addbook from './adminpanel/Addbook';
 import UserInfo from './components/UserInfo';
 import Showbook from './components/Showbook';
 import Yes from './components/Yes';
+import UserComponent from './adminpanel/UserComponent';
 
 
 
@@ -65,6 +66,7 @@ const App = () => {
             <Route path='BookSugguestData' element={<BookSugguestData/>}></Route>
             <Route path='UserData' element={<UserData/>}></Route>
             <Route path='Addbook' element={<Addbook/>}></Route>
+            <Route path='Useryes' element={<UserComponent/>}></Route>
           </Route>
                 
       </Routes>

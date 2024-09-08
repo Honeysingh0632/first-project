@@ -41,15 +41,13 @@ app.use("/auth", authRoutes);
 
 app.use('/get',userRoutes);
 
-// app.get('/user-profile', authMiddleware, (req, res) => {
-//     res.json(req.user);
-//   });
+
 
 //contact form data
 app.use('/submit',ContactUser);
 app.use('/contact/get/user',ContactUser);
 app.use('/contact/update/:id',ContactUser);
-// app.use('/delete/:id',ContactUser);
+app.use('',ContactUser);
 
 
 
@@ -57,7 +55,7 @@ app.use('/contact/update/:id',ContactUser);
 //book suggestdata
 app.use('/getbook',Booksuggest);
 app.use('/books',Booksuggest);
-app.use('books/delete/:id',Booksuggest);
+app.use('',Booksuggest)
 
 
 
