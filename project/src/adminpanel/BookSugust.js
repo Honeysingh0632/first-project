@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import { MdDeleteForever } from "react-icons/md";
 import axios from "axios";
 
 const BookSugguestData = ({id}) => {
@@ -46,13 +46,13 @@ const BookSugguestData = ({id}) => {
             <table class="table  table-hover table-bordered">
                                     <thead>
                                         <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">id</th>
-                                        <th scope="col">Your Name</th>
-                                        <th scope="col">Your Email</th>
-                                        <th scope="col">Book Name</th>
-                                        <th scope="col">Author Name</th>
-                                        <th scope="col">delete Name</th>
+                                        <th scope="col" className="text-info" >#</th>
+                                        <th scope="col"className="text-info">id</th>
+                                        <th scope="col" className="text-info">Your Name</th>
+                                        <th scope="col" className="text-info">Your Email</th>
+                                        <th scope="col" className="text-info">Book Name</th>
+                                        <th scope="col" className="text-info">Author Name</th>
+                                        <th scope="col" className="text-info"> delete Name</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -67,7 +67,7 @@ const BookSugguestData = ({id}) => {
                                      
                                         <td >
                                             <button className="btn btn-danger"
-                                        onClick={() => deleteUser(value._id)}>Delete</button></td>
+                                        onClick={() => deleteUser(value._id)}> <i className="fs-5 me-1"><MdDeleteForever/></i>Delete</button></td>
                                         </tr>
                                         )} 
                                     </tbody>

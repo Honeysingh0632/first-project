@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from "react";
 import { toast } from "react-toastify";
-
+import { MdDeleteForever } from "react-icons/md";
 import axios from "axios";
 
 
@@ -51,14 +51,14 @@ const ContactUser = () => {
                     <table class="table  table-hover table-bordered">
                                     <thead>
                                         <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">id</th>
-                                        <th scope="col">Your Name</th>
-                                        <th scope="col">Your Email</th>
-                                        <th scope="col">Your Number</th>
-                                        <th scope="col">Message</th>
+                                        <th scope="col" className="text-info">#</th>
+                                        <th scope="col" className="text-info">id</th>
+                                        <th scope="col" className="text-info">Your Name</th>
+                                        <th scope="col" className="text-info">Your Email</th>
+                                        <th scope="col" className="text-info">Your Number</th>
+                                        <th scope="col" className="text-info">Message</th>
                                         {/* <th scope="col">Update</th>*/}
-                                        <th scope="col">Delete</th> 
+                                        <th scope="col" className="text-info">Delete</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -72,7 +72,7 @@ const ContactUser = () => {
                                         <td >{value.message}</td>
                                         {/* <td > <button className="btn btn-primary">update</button></td>*/}
                                         <td > <button className="btn btn-danger"
-                                        onClick={() => deleteUser(value._id)}>Delete</button></td> 
+                                        onClick={() => deleteUser(value._id)}> <i className="fs-5 me-1"><MdDeleteForever/></i>Delete</button></td> 
 
 
                                         </tr>

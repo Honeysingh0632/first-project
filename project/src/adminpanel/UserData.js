@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { MdDeleteForever } from "react-icons/md";
 
 const UserData = () => {
 
     const [data,Setdata] =useState([]);
+    const [users, setUsers] = useState([]);
   
 
     useEffect(() => {
@@ -14,6 +18,20 @@ const UserData = () => {
         })
     })
     },[])
+    const deleteUser = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8000/userdata/${id}`);
+            setUsers(users.filter(user => user._id !== id)); // Update state after deletion
+           
+            toast.success('User deleted successfully  ')
+            window.location.reload()
+            // navigate('/AdminPanel/BookSugguestData')
+
+            
+        } catch (error) {
+            console.error( error);
+        }
+    };
 
     return(
         <>
@@ -25,13 +43,14 @@ const UserData = () => {
                     <div className="row">
                      
                               <table class="table  table-hover table-bordered">
-                                    <thead>
-                                        <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">id</th>
-                                        <th scope="col">First Name</th>
-                                        <th scope="col">Last Name</th>
-                                        <th scope="col"> Email</th>
+                                    <thead >
+                                        <tr >
+                                        <th scope="col" className="text-info">#</th>
+                                        <th scope="col" className="text-info">id</th>
+                                        <th scope="col" className="text-info">First Name</th>
+                                        <th scope="col" className="text-info">Last Name</th>
+                                        <th scope="col" className="text-info"> Email</th>
+                                        <th scope="col" className="text-info"> Delete</th>
                                        
                                         </tr>
                                     </thead>
@@ -44,6 +63,8 @@ const UserData = () => {
                                         <td >{value.lastName}</td>
                                         <td >{value.email}</td>
                                         {/* <td >{value.password}</td> */}
+                                        <td > <button className="btn btn-danger"
+                                        onClick={() => deleteUser(value._id)}><i className="fs-5 me-1"><MdDeleteForever/></i>Delete</button></td> 
                                         </tr>
                                         )}
                                     </tbody>

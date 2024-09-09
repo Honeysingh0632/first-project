@@ -1,7 +1,7 @@
 
 const router = require("express").Router();
 const { Books } = require("../models/user");
-const bcrypt = require("bcrypt");
+
 
 
 
@@ -17,12 +17,7 @@ router.get('/',async (req,res) => {
  })
 
 
-//  router.delete('/',async(req,res) => {
-//     let data = await Books
-//     let result = await data.deleteOne({_id:(req.params.id)})
-//     res.send(result)
-    
-// })
+
 
 router.delete('/user/:id', async (req, res) => {
     try {
@@ -53,17 +48,34 @@ router.post("/", async(req,res) => {
     }
 })
 
-router.delete('/', async (req, res) => {
+router.put('/bookupdate/:id', async (req, res) => {
     try {
-        const item = await Books.findByIdAndDelete(req.params.id);
-        if (!item) {
-            return res.status(404).send({ message: 'Item not found' });
+        const { name, email } = req.body; // Destructure fields from request body
+
+        // Find the user by ID and update
+        const updatedUser = await Books.findByIdAndUpdate(
+            req.params.id, // User ID from request parameters
+            {
+                name, // Update name
+                email,
+                bookname,
+                authorname // Update email
+                // Add other fields as needed
+            },
+            { new: true } // Return the updated document
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
         }
-        res.send({ message: 'Item deleted successfully' });
+
+        res.json(updatedUser); // Send back the updated user object
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).json({ message: 'Server error' });
     }
 });
+
+
 
 module.exports = router;
 

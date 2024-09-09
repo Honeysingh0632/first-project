@@ -40,6 +40,7 @@ app.use("/auth", authRoutes);
 // app.use('/user/profile',authRoutes)
 
 app.use('/get',userRoutes);
+app.use('',userRoutes);
 
 
 
@@ -56,6 +57,7 @@ app.use('',ContactUser);
 app.use('/getbook',Booksuggest);
 app.use('/books',Booksuggest);
 app.use('',Booksuggest)
+app.use('', Booksuggest);
 
 
 
