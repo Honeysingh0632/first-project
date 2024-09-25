@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User,User1,Books, validate } = require("../models/user");
+const { User, validate } = require("../models/user");
 const bcrypt = require("bcrypt");
 
 router.post("/", async (req, res) => {
@@ -40,6 +40,42 @@ router.delete('/userdata/:id', async (req, res) => {
       res.status(500).json({ message: 'Error deleting user', error: err });
     }
   });
+
+  // get single user data detailes
+
+  router.get('/userlogin/:id', async (req, res) => {
+    try {
+      const Id = req.params.id;
+     const data = await User.findOne({_id:Id});  
+     return res.status(200).json(data );
+    } catch (err) {
+      res.status(500).json({ message1: 'Error deleting user', error: err });
+    }
+  });
+
+  //user contact update route
+
+  router.put('/updateuserlogin/:id', async (req, res) => {
+    const { id } = req.params;
+    const updatedData = req.body;  // The data to update
+
+    try {
+        // Find document by ID and update it
+        const updatedRecord = await User.findByIdAndUpdate(id, updatedData, { new: true });
+
+        if (!updatedRecord) {
+            return res.status(404).json({ message1: "Record not found" });
+        }
+
+        res.json({
+            message: "Record updated successfully",
+            data: updatedRecord
+        });
+    } catch (error) {
+        res.status(500).json({ message1: "Error updating data", error });
+    }
+});
+
 
 
 

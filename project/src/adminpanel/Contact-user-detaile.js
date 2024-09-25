@@ -1,7 +1,9 @@
 import React,{useEffect, useState} from "react";
 import { toast } from "react-toastify";
 import { MdDeleteForever } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 
 
@@ -57,7 +59,7 @@ const ContactUser = () => {
                                         <th scope="col" className="text-info">Your Email</th>
                                         <th scope="col" className="text-info">Your Number</th>
                                         <th scope="col" className="text-info">Message</th>
-                                        {/* <th scope="col">Update</th>*/}
+                                        <th scope="col" className="text-info">Update</th>
                                         <th scope="col" className="text-info">Delete</th> 
                                         </tr>
                                     </thead>
@@ -70,7 +72,12 @@ const ContactUser = () => {
                                         <td >{value.email}</td>
                                         <td >{value.phone}</td>
                                         <td >{value.message}</td>
-                                        {/* <td > <button className="btn btn-primary">update</button></td>*/}
+                                        <td > <button className="btn btn-primary"> 
+
+                                        <Link className="link" to={`/AdminPanel/contactupdate/${value._id}/edit`}
+
+                                         ><i className="fs-5 me-1 link"><FaEdit/></i>Edit</Link> </button></td>
+
                                         <td > <button className="btn btn-danger"
                                         onClick={() => deleteUser(value._id)}> <i className="fs-5 me-1"><MdDeleteForever/></i>Delete</button></td> 
 

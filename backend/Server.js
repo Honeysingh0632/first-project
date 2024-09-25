@@ -36,11 +36,12 @@ app.use('/addbook/getapi',AddBook);
 
 //user detailes
 app.use("/user", userRoutes);
-app.use("/auth", authRoutes);
-// app.use('/user/profile',authRoutes)
-
 app.use('/get',userRoutes);
 app.use('',userRoutes);
+
+//auth route
+
+app.use("/auth", authRoutes);
 
 
 
@@ -57,8 +58,6 @@ app.use('',ContactUser);
 app.use('/getbook',Booksuggest);
 app.use('/books',Booksuggest);
 app.use('',Booksuggest)
-app.use('', Booksuggest);
-
 
 
 

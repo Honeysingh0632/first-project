@@ -1,14 +1,16 @@
 import React,{useEffect,useState} from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, } from "react-router-dom";
 import { toast } from "react-toastify";
 import { MdDeleteForever } from "react-icons/md";
 import axios from "axios";
+import { FaEdit } from "react-icons/fa";
+
 
 const BookSugguestData = ({id}) => {
 
     const [data,Setdata] =useState([]);
     const [users, setUsers] = useState([]);
-    const navigate =useNavigate();
+    
 
     useEffect(() => {
         fetch('http://localhost:8000/getbook').then((result) => {
@@ -27,15 +29,16 @@ const BookSugguestData = ({id}) => {
            
             toast.success('User deleted successfully  ')
             window.location.reload()
-            // navigate('/AdminPanel/BookSugguestData')
+           
 
             
         } catch (error) {
             console.error( error);
         }
     };
+   
 
- 
+      
 
     return(
         <>
@@ -52,7 +55,9 @@ const BookSugguestData = ({id}) => {
                                         <th scope="col" className="text-info">Your Email</th>
                                         <th scope="col" className="text-info">Book Name</th>
                                         <th scope="col" className="text-info">Author Name</th>
-                                        <th scope="col" className="text-info"> delete Name</th>
+                                        <th scope="col" className="text-info"> Update </th>
+                                        <th scope="col" className="text-info"> delete </th>
+                                       
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -64,10 +69,14 @@ const BookSugguestData = ({id}) => {
                                         <td >{value.email}</td>
                                         <td >{value.bookname}</td>
                                         <td >{value.authorname}</td>
+                                        <td >
+                                            <button className="btn btn-success">
+                                                <Link className="link" to={`/AdminPanel/updatebook/${value._id}/edit`}><i className="fs-5 me-1 link"><FaEdit/></i>Edit</Link> </button></td>
                                      
                                         <td >
                                             <button className="btn btn-danger"
                                         onClick={() => deleteUser(value._id)}> <i className="fs-5 me-1"><MdDeleteForever/></i>Delete</button></td>
+                                        
                                         </tr>
                                         )} 
                                     </tbody>

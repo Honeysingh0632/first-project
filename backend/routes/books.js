@@ -1,6 +1,7 @@
 
 const router = require("express").Router();
 const { Books } = require("../models/user");
+// const someController = require('../controllers/someController');
 
 
 
@@ -29,8 +30,20 @@ router.delete('/user/:id', async (req, res) => {
     }
   });
 
+  router.get('/userbook/:id', async (req, res) => {
+    try {
+      const Id = req.params.id;
+     const data = await Books.findOne({_id:Id});  
+     return res.status(200).json(data );
+    } catch (err) {
+      res.status(500).json({ message: 'Error deleting user', error: err });
+    }
+  });
 
 
+
+
+//post route
 router.post("/", async(req,res) => {
     const NewBooks = new Books ({
         name:req.body.name,
@@ -48,32 +61,32 @@ router.post("/", async(req,res) => {
     }
 })
 
-router.put('/bookupdate/:id', async (req, res) => {
+// router.put('/', someController.updateData);
+
+// update route
+
+router.put('/updatebook/:id', async (req, res) => {
+    const { id } = req.params;
+    const updatedData = req.body;  // The data to update
+
     try {
-        const { name, email } = req.body; // Destructure fields from request body
+        // Find document by ID and update it
+        const updatedRecord = await Books.findByIdAndUpdate(id, updatedData, { new: true });
 
-        // Find the user by ID and update
-        const updatedUser = await Books.findByIdAndUpdate(
-            req.params.id, // User ID from request parameters
-            {
-                name, // Update name
-                email,
-                bookname,
-                authorname // Update email
-                // Add other fields as needed
-            },
-            { new: true } // Return the updated document
-        );
-
-        if (!updatedUser) {
-            return res.status(404).json({ message: 'User not found' });
+        if (!updatedRecord) {
+            return res.status(404).json({ message: "Record not found" });
         }
 
-        res.json(updatedUser); // Send back the updated user object
+        res.json({
+            message: "Record updated successfully",
+            data: updatedRecord
+        });
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ message: "Error updating data", error });
     }
 });
+
+
 
 
 
