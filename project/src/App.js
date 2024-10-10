@@ -20,6 +20,9 @@ import Showbook from './components/Showbook';
 import AdminUpdate from './adminpanel/AdminUpdate'
 import ContactUpdate from './adminpanel/ContactUpdate';
 import UserUpdate from './adminpanel/UserUpdate';
+import Updatebook from './adminpanel/Updatebook';
+import Allbook from './adminpanel/Allbook';
+import Test from './adminpanel/Test';
 
 
 
@@ -69,9 +72,13 @@ const App = () => {
             <Route path='BookSugguestData' element={<BookSugguestData/>} />
             <Route path='UserData' element={<UserData/>}></Route>
             <Route path='Addbook' element={<Addbook/>}></Route>
+            <Route path='Allbook' element={<Allbook/>}></Route>
             <Route path='updatebook/:id/edit' element={<AdminUpdate/>}></Route>
             <Route path= 'contactupdate/:id/edit' element={<ContactUpdate/>}></Route>
             <Route path='userupdate/:id/edit' element={<UserUpdate/>}></Route>
+            <Route path='update/addbook/:id/edit' element={<Updatebook/>}></Route>
+            {/* <Route path='update/addbook/:id/edit' element={<Test/>}></Route> */}
+
           </Route>
                 
       </Routes>

@@ -29,6 +29,8 @@ const Admin = () => {
                  <Link to="UserData">Click here</Link>
                  <h5>Add books</h5>
                  <Link to="Addbook">Click here</Link>
+                 <h5>All books detailes</h5>
+                 <Link to="Allbook">Click here</Link>
                  
             </div>
             <div className="sidebaar-2">

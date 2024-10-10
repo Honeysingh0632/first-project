@@ -30,6 +30,8 @@ router.delete('/user/:id', async (req, res) => {
     }
   });
 
+  // single user data
+
   router.get('/userbook/:id', async (req, res) => {
     try {
       const Id = req.params.id;

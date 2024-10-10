@@ -31,8 +31,8 @@ app.use('/uploads', express.static('uploads'));
 //add book 
 
 app.use('/addbook',AddBook);
-
 app.use('/addbook/getapi',AddBook);
+app.use('',AddBook);
 
 //user detailes
 app.use("/user", userRoutes);

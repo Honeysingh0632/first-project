@@ -1,5 +1,5 @@
 import React,{useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -136,6 +136,8 @@ const handleFileChange = e => {
 
 
                <button type="submit"  className="btn btn-success mb-2" onClick={submit} >Add book</button>
+                {/*<button type="submit"  className="btn btn-success mb-2" >
+                <Link to={`/AdminPanel/update/addbook/${value._id}/edit`} >update book</Link></button> */}
                  </form>
 
         </div>

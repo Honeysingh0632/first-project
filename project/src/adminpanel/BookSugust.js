@@ -70,11 +70,11 @@ const BookSugguestData = ({id}) => {
                                         <td >{value.bookname}</td>
                                         <td >{value.authorname}</td>
                                         <td >
-                                            <button className="btn btn-success">
+                                            <button className="btn btn-success btn-sm ">
                                                 <Link className="link" to={`/AdminPanel/updatebook/${value._id}/edit`}><i className="fs-5 me-1 link"><FaEdit/></i>Edit</Link> </button></td>
                                      
                                         <td >
-                                            <button className="btn btn-danger"
+                                            <button className="btn btn-outline-danger btn-sm"
                                         onClick={() => deleteUser(value._id)}> <i className="fs-5 me-1"><MdDeleteForever/></i>Delete</button></td>
                                         
                                         </tr>

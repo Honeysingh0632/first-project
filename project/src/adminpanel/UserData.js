@@ -66,13 +66,13 @@ const UserData = () => {
                                         <td >{value.lastName}</td>
                                         <td >{value.email}</td>
                                         {/* <td >{value.password}</td> */}
-                                        <td > <button className="btn btn-primary"> 
+                                        <td > <button className="btn btn-success btn-sm"> 
 
                                         <Link className="link" to={`/AdminPanel/userupdate/${value._id}/edit`}
 
                                         ><i className="fs-5 me-1 link"><FaEdit/></i>Edit</Link> </button></td>
 
-                                        <td > <button className="btn btn-danger"
+                                        <td > <button className="btn btn-outline-danger btn-sm"
                                         onClick={() => deleteUser(value._id)}><i className="fs-5 me-1"><MdDeleteForever/></i>Delete</button></td> 
                                         </tr>
                                         )}

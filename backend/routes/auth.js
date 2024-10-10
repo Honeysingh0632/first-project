@@ -36,9 +36,7 @@ const validate = (data) => {
 	return schema.validate(data);
 };
 
-// router.get('/', authMiddleware, (req, res) => {
-//     res.json(req.user);
-//   });
+
 
 
 
