@@ -1,7 +1,8 @@
 
 const router = require("express").Router();
 const { Books } = require("../models/user");
-// const someController = require('../controllers/someController');
+const  authMiddleware = require('../middelware/authmiddelware');
+const adminMiddelware = require("../middelware/adminmiddelware");
 
 
 
@@ -9,13 +10,16 @@ const { Books } = require("../models/user");
 
 
 
-router.get('/',async (req,res) => {
+router.get('/',authMiddleware,adminMiddelware, async (req,res) => {
 
     let data = await Books
     let response = await data.find();
     res.send(response)
 
  })
+
+
+
 
 
 
@@ -32,7 +36,7 @@ router.delete('/user/:id', async (req, res) => {
 
   // single user data
 
-  router.get('/userbook/:id', async (req, res) => {
+  router.get('/userbook/:id',authMiddleware,adminMiddelware, async (req, res) => {
     try {
       const Id = req.params.id;
      const data = await Books.findOne({_id:Id});  

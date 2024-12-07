@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';  // Or you can use fetch()
 import { useParams ,useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { baseurl } from '../Config/config';
 
 
 function UserUpdate({ id }) {
@@ -18,7 +19,16 @@ function UserUpdate({ id }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/userlogin/${parmas.id}`);
+
+                const token = localStorage.getItem('token');
+    
+               
+                const headers = {
+                    Authorization: `${token}`, 
+                };
+                const response = await axios.get(`http://localhost:8000/userlogin/${parmas.id}`,
+                    {headers}
+                );
                 setFirst(response.data.firstName);
                 setLast(response.data.lastName);
                 setemail(response.data.email);
@@ -45,7 +55,7 @@ function UserUpdate({ id }) {
         };
 
         try {
-            const response = await axios.put(`http://localhost:8000/updateuserlogin/${parmas.id}`, updatedData);  // Or use fetch()
+            const response = await axios.put(`${baseurl}/updateuserlogin/${parmas.id}`, updatedData);  // Or use fetch()
             setMessage(response.data.message1); 
             navigate('/AdminPanel/BookSugguestData');
             toast.success('User data update  successfully  ')

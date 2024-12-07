@@ -4,25 +4,61 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { MdDeleteForever } from "react-icons/md";
+import { baseurl } from "../Config/config";
 
 const UserData = () => {
 
     const [data,Setdata] =useState([]);
     const [users, setUsers] = useState([]);
+
+    const [currentPage, setCurrentPage] = useState(1); // Current page state
+    const itemsPerPage = 5;
+
+
+    const indexOfLastPage = currentPage * itemsPerPage; // Get the index of the last transaction
+    const indexOfFirstPage = indexOfLastPage - itemsPerPage; // Get the index of the first transaction
+    const CurrentPage = data.slice(indexOfFirstPage, indexOfLastPage); // Get the transactions for the current page
+  
+    // Change page
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  
+    // Calculate total pages
+    const totalPages = Math.ceil(data.length / itemsPerPage);
+    
   
 
     useEffect(() => {
-    fetch('http://localhost:8000/get').then((result) => {
-        result.json().then((res) => {
+      const fetchData = async () => {
+        const token = localStorage.getItem('token'); // Retrieve the token
+  
+        try {
+          const response = await fetch(`${baseurl}/get`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `${token}`
+            }
+          });
+  
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+  
+          const data = await response.json();
+          console.log(data); 
+          Setdata(data);// Handle data as needed
+        } catch (error) {
+          console.error('Fetch error:', error);
+        }
+      };
+  
+      fetchData();
+    }, []);
 
-            console.log("result",res)
-            Setdata(res)
-        })
-    })
-    },[])
+   
     const deleteUser = async (id) => {
         try {
-            await axios.delete(`http://localhost:8000/userdata/${id}`);
+            await axios.delete(`${baseurl}/userdata/${id}`);
             setUsers(users.filter(user => user._id !== id)); // Update state after deletion
            
             toast.success('User deleted successfully  ')
@@ -58,13 +94,15 @@ const UserData = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.map((value,index) => 
-                                          <tr>
+                                    {CurrentPage.length > 0 ? (
+                                    CurrentPage.map((value,index) => (
+                                        <tr>
                                         <th scope="row">{ index +1}</th>
                                         <td >{value._id}</td>
                                         <td >{value.firstName}</td>
                                         <td >{value.lastName}</td>
                                         <td >{value.email}</td>
+                                        {/* <td >{value.isAdmin}</td> */}
                                         {/* <td >{value.password}</td> */}
                                         <td > <button className="btn btn-success btn-sm"> 
 
@@ -75,10 +113,33 @@ const UserData = () => {
                                         <td > <button className="btn btn-outline-danger btn-sm"
                                         onClick={() => deleteUser(value._id)}><i className="fs-5 me-1"><MdDeleteForever/></i>Delete</button></td> 
                                         </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                            <td colSpan="9">you are not access this data</td>
+                                            </tr>
                                         )}
+                                      
                                     </tbody>
                                     </table>
                 </div>
+                <div className='text-center'>
+        <button className='btn btn-primary mt-2 ' onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
+          Previous
+        </button>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index + 1}
+            onClick={() => paginate(index + 1)}
+            className=' btn btn-light ms-2'
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button  className='btn btn-primary ms-2 mt-2' onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>
+          Next
+        </button>
+      </div>
             </div>
         </div>
         </div>

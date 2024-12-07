@@ -7,6 +7,7 @@ import { IoBookSharp } from "react-icons/io5";
 import styles from "./styles.module.css";
 import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { baseurl } from "../Config/config";
 
 
 
@@ -24,7 +25,7 @@ const Login = () => {
 		e.preventDefault();
       
 		try {
-			const url = "http://localhost:8000/auth";
+			const url = `${baseurl}/auth`;
 			const { data: res } = await axios.post(url, data);
            
 			localStorage.setItem("token", res.data);

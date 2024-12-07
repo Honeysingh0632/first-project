@@ -6,6 +6,7 @@ import { IoCall } from "react-icons/io5";
 import { IoTime } from "react-icons/io5";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { baseurl } from "../Config/config";
 
 const Contact1 = () => {
 
@@ -25,7 +26,7 @@ const Contact1 = () => {
         console.log(set)
     
         try {
-            const response = await fetch ("http://localhost:8000/submit",
+            const response = await fetch (`${baseurl}/submit`,
                 {method:'POST',
                     headers:{'Content-type':'application/json'},
                     body:JSON.stringify(set)}) 

@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import Rugh from './Rugh';
 import Footer from './Footer';
 import { Navigate, useNavigate } from "react-router-dom";
+import { baseurl } from "../Config/config";
 
 
 const BookSugguest = () => {
@@ -16,7 +17,7 @@ const BookSugguest = () => {
         console.log(set)
     
         try {
-            const response = await fetch ("http://localhost:8000/books",
+            const response = await fetch (`${baseurl}/books`,
                 {method:'POST',
                     headers:{'Content-type':'application/json'},
                     body:JSON.stringify(set)}) 

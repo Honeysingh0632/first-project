@@ -1,6 +1,10 @@
 const router = require("express").Router();
+const authMiddleware = require("../middelware/authmiddelware");
 const { User, validate } = require("../models/user");
 const bcrypt = require("bcrypt");
+
+
+const adminMiddelware = require("../middelware/adminmiddelware");
 
 router.post("/", async (req, res) => {
 	try {
@@ -25,11 +29,13 @@ router.post("/", async (req, res) => {
 });
 
 
-router.get('/',async (req,res) => {
+router.get('/',authMiddleware,adminMiddelware,async (req,res) => {
 	let data = await User
 	let response = await data.find()
 	res.send(response)
 });
+
+
 
 router.delete('/userdata/:id', async (req, res) => {
     try {
@@ -43,7 +49,7 @@ router.delete('/userdata/:id', async (req, res) => {
 
   // get single user data detailes
 
-  router.get('/userlogin/:id', async (req, res) => {
+  router.get('/userlogin/:id',authMiddleware,adminMiddelware, async (req, res) => {
     try {
       const Id = req.params.id;
      const data = await User.findOne({_id:Id});  
@@ -75,6 +81,18 @@ router.delete('/userdata/:id', async (req, res) => {
         res.status(500).json({ message1: "Error updating data", error });
     }
 });
+
+router.get("/singleuser",authMiddleware, async (req,res) => {
+	try {
+		const userdata = req.user;
+		return res.status(200).json({message:userdata})
+		
+	} catch (error) {
+		console.log(error);
+		
+		
+	}
+})
 
 
 

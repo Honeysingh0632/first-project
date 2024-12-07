@@ -8,10 +8,46 @@ import { toast } from "react-toastify";
 import { CgProfile } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
 import { TbLogout2 } from "react-icons/tb";
+import { baseurl } from "../Config/config";
+
 
 
 const Rugh = () => {
   const [showMediaIcons, setShowMediaIcons] = useState(false);
+  const [data, setData] = useState(null); // Initialize as null or empty object
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await fetch(`${baseurl}/singleuser`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `${token}`
+                }
+            });
+
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            const result = await response.json();
+            console.log("API Result:", result); // Log to check data structure
+            
+            // Check if `message` exists in result
+            if (result && result.message) {
+                setData(result.message); // Set data to `message` object
+            } else {
+                setError("No data found in response"); // Set error if `message` is missing
+            }
+        } catch (error) {
+            console.error('Fetch error:', error);
+            setError(error.message); // Update error state
+        }
+    };
+
+    fetchData();
+}, []);
 
   
 
@@ -85,6 +121,24 @@ const Rugh = () => {
                 <div className="dropdown-menu">
                   <p className="text-light fs-3 "><CgProfile />
                   <Link to='/user' className="link"> My Profile</Link></p>
+                  {data ? (
+                                   <p className="text-light">
+                                      <h3>{data.firstName} {data.lastName}</h3>
+                                       <p><strong>Email:</strong> {data.email}</p>
+                                           
+                                   </p>
+                                     
+                                            
+                                           
+                                           
+                                       
+                                    ) : (
+                                      <p className="text-light">
+                                      
+                                       <p ><Link to="/signup" className="text fs-3">Register or Log in</Link></p>
+                                           
+                                   </p>
+                                    )}
                   
                   <p className="text-light fs-3"> <IoSettingsOutline/> Edit profile</p>
                    <button onClick={handleLogout} className="logout "><TbLogout2/> Log Out</button> 

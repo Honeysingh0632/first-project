@@ -8,13 +8,28 @@ const userSchema = new mongoose.Schema({
 	lastName: { type: String, required: true },
 	email: { type: String, required: true },
 	password: { type: String, required: true },
+	isAdmin: { type: Boolean, default: false },
 });
 
 userSchema.methods.generateAuthToken = function () {
-	const token = jwt.sign({ _id: this._id }, process.env.JWTPRIVATEKEY, {
-		expiresIn: "7d",
-	});
-	return token;
+
+	try {
+		return jwt.sign(
+			{
+				userId:this._id.toString(),
+				email:this.email,
+				isAdmin:this.isAdmin,
+
+			},process.env.JWTPRIVATEKEY,{
+				expiresIn: "7d"
+
+			}
+
+		)
+	} catch (error) {
+		console.log(error)
+		
+	}
 };
 
 const UserSchema1= new mongoose.Schema({

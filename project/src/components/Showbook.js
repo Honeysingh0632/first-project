@@ -6,17 +6,30 @@ import Footer from "./Footer";
 import Yes from "./Yes";
 import ProfileDropdown from "./Yes";
 import { Link } from "react-router-dom";
-
+import { baseurl } from "../Config/config";
+import { useAuth } from "../store/auth";
 
 const Showbook = () => {
 
     const [data,Setdata] =useState([]);
+
+    const token = useAuth();
     
 
     useEffect(() => {
         const fetchData = async () => {
+          const token = localStorage.getItem('token');
+
           try {
-            const res = await axios.get('http://localhost:8000/addbook/getapi');
+            const res = await axios.get(`${baseurl}/addbook/getapi`,
+              {
+                method:'GET',
+                headers:{
+                  'Content-Type': 'application/json',
+                  'Authorization': `${token}`
+                }
+              }
+            );
             Setdata(res.data);
           } catch (err) {
             console.error(err);
@@ -41,7 +54,7 @@ const Showbook = () => {
                         
 
                         {value.image && (
-            <img src={`http://localhost:8000${value.image}`} alt={value.AddBookname} width="200"  className="add-book-card"/>
+            <img src={`${baseurl}${value.image}`} alt={value.AddBookname} width="200"  className="add-book-card"/>
           )}
 
                          <h3>{value.AddBookname}</h3>

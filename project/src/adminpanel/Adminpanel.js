@@ -1,6 +1,20 @@
-import React,{useEffect, useState} from "react";
+import React,{useEffect, useContext} from "react";
 
-import { Link, Outlet, Router  } from 'react-router-dom';
+import { Link, Navigate, Outlet, Router  } from 'react-router-dom';
+import { useAuth } from "../store/auth";
+import './adminstyle.css';
+import { IoIosContact } from "react-icons/io";
+import { FaBook } from "react-icons/fa";
+import { FaUserAstronaut } from "react-icons/fa";
+import { BiSolidBookAdd } from "react-icons/bi";
+import { GiWhiteBook } from "react-icons/gi";
+import { FaUserCheck } from "react-icons/fa";
+import { IoBookSharp } from "react-icons/io5";
+import { FaHome } from "react-icons/fa";
+
+
+
+
 
 
 
@@ -8,6 +22,20 @@ import { Link, Outlet, Router  } from 'react-router-dom';
 
 
 const Admin = () => {
+
+    const {data,isLoadind} = useAuth();
+    console.log(data,"ndsnjdbn cn n znx kjbjj")
+
+    if(isLoadind){
+        return <h1>loading..</h1>
+    }
+
+    if (!data.isAdmin){
+        return <Navigate to='/' />
+    }
+
+   
+    
 
 
     return(
@@ -20,17 +48,22 @@ const Admin = () => {
         <div className="admin border  ">
             
             <div className="sidebaar-1 border  w-20 p-3">
-            <h1 className="bold-text ">Admin Pannel </h1>
-                <h5>Contact User Details</h5>
-                 <Link to="ContactUser"> Click here</Link> <br></br>
-                 <h5>Book Sugguest Details</h5>
-                 <Link to="BookSugguestData"> Click here</Link><br></br>
-                 <h5>User Details</h5>
-                 <Link to="UserData">Click here</Link>
-                 <h5>Add books</h5>
-                 <Link to="Addbook">Click here</Link>
-                 <h5>All books detailes</h5>
-                 <Link to="Allbook">Click here</Link>
+            <h1 className="fs-4"> <i className='bold-text'><IoBookSharp /></i> Library</h1>
+            <h1 className="bold-text ">Admin Dashbord </h1>
+                <h5 className="mt-3"><i className="me-2"><IoIosContact/></i>Contact User Details</h5>
+                 <Link to="ContactUser" className="text-dark me-5"> Click here</Link> <br></br>
+                 <h5 className="mt-3"> <i className="me-2"><FaBook/></i> Book Sugguest Details</h5>
+                 <Link to="BookSugguestData" className="text-dark me-5"> Click here</Link><br></br>
+                 <h5 className="mt-3"> <i className="me-2"><FaUserAstronaut/></i>User Details</h5>
+                 <Link to="UserData" className="text-dark me-5">Click here</Link>
+                 <h5 className="mt-3"><i className="me-2"><BiSolidBookAdd/></i>Add books</h5>
+                 <Link to="Addbook" className="text-dark me-5">Click here</Link>
+                 <h5 className="mt-3"><i className="me-2"><GiWhiteBook/></i>All books detailes</h5>
+                 <Link to="Allbook" className="text-dark me-5">Click here</Link>
+                 <h5 className="mt-3"><i className="me-2"><FaUserCheck/></i>Logged in User  detailes</h5>
+                 <Link to="Userlogin" className="text-dark me-5">Click here</Link>
+                 <h5 className="mt-3"><i className="me-2"><FaHome/></i>Go to home</h5>
+                 <Link to="/" className="text-dark me-5">Click here</Link>
                  
             </div>
             <div className="sidebaar-2">
@@ -41,6 +74,11 @@ const Admin = () => {
      
        
       </div>  
+      <div className="container-fluid bg-primary w-100 h-50 text-center mt-5 ">
+      
+        <p className="text-light">  @libaray managment</p>
+
+      </div>
         
         
             

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';  // Or you can use fetch()
 import { useParams ,useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { baseurl } from '../Config/config';
 
 
 function Updatebook({ id }) {
@@ -23,25 +24,38 @@ function Updatebook({ id }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/addbook/single/${parmas.id}`);
+               
+                const token = localStorage.getItem('token');
+    
+               
+                const headers = {
+                    Authorization: `${token}`, 
+                };
+    
+              
+                const response = await axios.get(
+                    `${baseurl}/addbook/single/${parmas.id}`,
+                    { headers }
+                );
+    
+                // Update state with the response data
                 setAddBookname(response.data.AddBookname);
                 setAddAuthorname(response.data.AddAuthorname);
                 setbookdesc(response.data.bookdesc);
                 setbookprice(response.data.bookprice);
                 setbookoldprice(response.data.bookoldprice);
                 setbookrating(response.data.bookrating);
-
-                const image = response.data;
-                setPreview(image);
-              
-               
+    
+                // Set the preview image
+                setPreview(response.data.image); // Assuming `response.data.image` contains the image URL
             } catch (error) {
                 console.error("Error fetching the data", error);
             }
         };
+    
         fetchData();
-    }, [id]);
-
+    }, [id]); // Ensure `params.id` is used if it's derived from props
+    
     const parmas = useParams();
 
     // Handle form submission for updating data
@@ -59,7 +73,7 @@ function Updatebook({ id }) {
 
         
         try {
-            const response = await axios.put(`http://localhost:8000/update/image/${parmas.id}`, formData);  // Or use fetch()
+            const response = await axios.put(`${baseurl}/update/image/${parmas.id}`, formData);  // Or use fetch()
             setMessage(response.data.message1); 
             navigate('/AdminPanel/Allbook');
             toast.success('User data update  successfully  ')

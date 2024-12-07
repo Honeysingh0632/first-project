@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const { AddBook1, } = require("../models/user");
 const upload = require('../ multer-config');
+const  authMiddleware = require('../middelware/authmiddelware');
+const adminMiddelware = require("../middelware/adminmiddelware");
 
 
 
@@ -18,14 +20,20 @@ router.post('/', upload, (req, res) => {
 
 
 
- router.get('/', (req, res) => {
+ router.get('/',authMiddleware, (req, res) => {
+    AddBook1.find()
+      .then(data => res.json(data))
+      .catch(err => res.status(500).json({ error: err.message }));
+  });
+
+  router.get('/addbook/getapi/front',authMiddleware,adminMiddelware, (req, res) => {
     AddBook1.find()
       .then(data => res.json(data))
       .catch(err => res.status(500).json({ error: err.message }));
   });
 
 
-router.get('/addbook/single/:id', async (req, res) => {
+router.get('/addbook/single/:id',authMiddleware,adminMiddelware, async (req, res) => {
     try {
       const Id = req.params.id;
      const data = await AddBook1.findOne({_id:Id});  

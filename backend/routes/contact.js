@@ -1,15 +1,21 @@
 const router = require("express").Router();
 const { User1, } = require("../models/user");
+const  authMiddleware = require('../middelware/authmiddelware');
+const adminMiddelware = require("../middelware/adminmiddelware");
 
 
 
-router.get('/',async (req,res) => {
+router.get('/',authMiddleware,adminMiddelware, async (req,res) => {
 
     let data = await User1
     let response = await data.find();
     res.send(response)
 
  })
+
+//  router.get("/protected", authMiddleware, (req, res) => {
+//     res.send("This is a protected route, accessible only with a valid token.");
+// });
 
  router.post("/", async(req,res) => {
 
@@ -57,7 +63,7 @@ router.delete('/contact/:id', async (req, res) => {
 
   // get single user data detailes
 
-  router.get('/usercontact/:id', async (req, res) => {
+  router.get('/usercontact/:id',authMiddleware,adminMiddelware, async (req, res) => {
     try {
       const Id = req.params.id;
      const data = await User1.findOne({_id:Id});  

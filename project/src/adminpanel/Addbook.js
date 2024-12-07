@@ -2,6 +2,7 @@ import React,{useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { baseurl } from "../Config/config";
 
 const Addbook =() => {
 
@@ -18,32 +19,6 @@ const Addbook =() => {
     
     const navigate =useNavigate();
 
-    // const submit = async(e)=> {
-    //     e.preventDefault()
-    //     console.log(set)
-    
-    //     try {
-    //         const response = await fetch ("http://localhost:8000/addbook",
-    //             {method:'POST',
-    //                 headers:{'Content-type':'application/json'},
-    //                 body:JSON.stringify(set)}) 
-    //                 toast.success('add book Successfully  ')
-    //                 navigate('/AdminPanel');
-
-    
-    //             if(!response.ok){
-    //              console.log("error")
-    
-    //             }else {
-    //                 const data = await response.json()
-    //                 console.log('success',data)
-    //                 // alert('submit data')
-    //             }
-    //     } catch{
-    //         console.log('error')
-    //     }
-    // }
-   
 
     const submit = async e => {
         e.preventDefault();
@@ -58,7 +33,7 @@ const Addbook =() => {
 
     
         try {
-          const res = await axios.post('http://localhost:8000/addbook', data, {
+          const res = await axios.post(`${baseurl}/addbook`, data, {
             headers: { 'Content-Type': 'multipart/form-data' },
            
           });
@@ -117,21 +92,7 @@ const handleFileChange = e => {
                 <input name="bookrating" required  type="number"   value= {formData.bookrating} 
                 onChange={handelchange}  className="form-control"></input>
      
-     {/*
-                <label for="message"  className="set-text">Active  field</label>
-                <div class="form-check">
-
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
-                <label class="form-check-label" for="flexRadioDefault1">
-                Active 
-                </label>
-                </div>
-                <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked/>
-                <label class="form-check-label" for="flexRadioDefault2">
-                    Deactive
-                </label>
-                </div> */}
+    
                 
 
 

@@ -42,6 +42,7 @@ app.use('',userRoutes);
 //auth route
 
 app.use("/auth", authRoutes);
+app.use("/userdata", userRoutes);
 
 
 
@@ -55,11 +56,13 @@ app.use('',ContactUser);
 
 
 //book suggestdata
-app.use('/getbook',Booksuggest);
+app.use('/getbook', Booksuggest);
 app.use('/books',Booksuggest);
 app.use('',Booksuggest)
 
-
+// app.get('/private', authMiddleware, (req, res) => {
+//     res.json({ message: 'This is a private route', user: req.user });
+//   });
 
 const port = process.env.PORT || 8000;
 app.listen(port, console.log(`Listening on port ${port}...`));

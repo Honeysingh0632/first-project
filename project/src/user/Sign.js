@@ -6,6 +6,7 @@ import axios from "axios";
 import styles from "./styles.module.css";
 import './user.css';
 import { toast } from "react-toastify";
+import { baseurl } from "../Config/config";
 
 const Sign = () => {
 
@@ -25,7 +26,7 @@ const Sign = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "http://localhost:8000/user";
+			const url = `${baseurl}/user`;
 			const { data: res } = await axios.post(url, data);
             toast.success('register succesfully')
 			navigate("/login");

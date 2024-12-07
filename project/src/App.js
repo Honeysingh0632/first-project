@@ -1,5 +1,5 @@
 // src/App.js
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect, useState  } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes ,Navigate} from 'react-router-dom';
 import Home from './components/Home';
@@ -22,7 +22,10 @@ import ContactUpdate from './adminpanel/ContactUpdate';
 import UserUpdate from './adminpanel/UserUpdate';
 import Updatebook from './adminpanel/Updatebook';
 import Allbook from './adminpanel/Allbook';
-import Test from './adminpanel/Test';
+import UserLogin from './adminpanel/User-login';
+
+
+
 
 
 
@@ -35,9 +38,8 @@ const App = () => {
 
   const user = localStorage.getItem("token");
 
-  // console.log(user)
+  
 
- 
 
 
   return (
@@ -47,9 +49,10 @@ const App = () => {
     <Router>
 
       <Routes>
-        {/* <Route path="/" element={<Home />} /> */}
+       
 
         {user && <Route path="/" exact element={<Home />} />}
+       
 
        
            <Route path="/login" exact element={  <Login/>}/>
@@ -66,9 +69,15 @@ const App = () => {
         <Route path='/NewAdd' element={<NewAdd/>}></Route>
         <Route path='/User' element={<UserInfo/>}></Route>
         <Route path='/showbook' element={<Showbook/>}></Route>
-       
+
+         
+      
+
+
+
           <Route path="/AdminPanel" element={<Admin />} > 
             <Route path="ContactUser" element={<ContactUser />} />
+            <Route path="Userlogin" element={<UserLogin />} />
             <Route path='BookSugguestData' element={<BookSugguestData/>} />
             <Route path='UserData' element={<UserData/>}></Route>
             <Route path='Addbook' element={<Addbook/>}></Route>
@@ -80,12 +89,16 @@ const App = () => {
             {/* <Route path='update/addbook/:id/edit' element={<Test/>}></Route> */}
 
           </Route>
+
+         
                 
       </Routes>
    
    
     
     </Router>
+
+  
     
      </>
 
