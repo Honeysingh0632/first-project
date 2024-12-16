@@ -259,6 +259,12 @@ li {
  
   
 }
+.on-mobile{
+  display:contents;
+}
+.on-desktop{
+  display: none;
+}
 .form1{
  width: 100%;
   margin: auto;

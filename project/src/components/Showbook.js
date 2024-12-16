@@ -41,6 +41,7 @@ const Showbook = () => {
     return(
         <>
             <div className="mt-5 hey-last">
+            
             <h1 className="new-text text-center mt-5 "> Our Books <span className="price-text1"> collections</span></h1>
                <p className="text-center mt-2">we have a wide range of books in our libaray and many more exclusive books </p>
         <div className="container mt-4">
@@ -61,12 +62,13 @@ const Showbook = () => {
                         
                          <h6>{value.AddAuthorname}</h6>
                          <p>{value.bookdesc}</p>
-                         <p>price:{value.bookprice}$</p>
+                         <p className="text-success">price:{value.bookprice}$</p>
                        
-                         <p className="text-decoration-line-through"> Old price :{value.bookoldprice} $</p>
+                         <p className="text-decoration-line-through text-danger"> Old price :{value.bookoldprice} $</p>
                          <p> Book Rating :{value.bookrating}/5</p>
                        <br/>
-                       <button className="btn btn-dark" > <Link to="/Newadd" className="link" >Read Now</Link></button>
+                       <button className="btn btn-dark" >
+                         <Link to={`/Singlebook/${value._id}/edit`} className="link" >Read Now</Link></button>
 
                     </div>
                

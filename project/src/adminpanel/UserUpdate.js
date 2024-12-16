@@ -57,7 +57,7 @@ function UserUpdate({ id }) {
         try {
             const response = await axios.put(`${baseurl}/updateuserlogin/${parmas.id}`, updatedData);  // Or use fetch()
             setMessage(response.data.message1); 
-            navigate('/AdminPanel/BookSugguestData');
+            navigate('/AdminPanel/UserData');
             toast.success('User data update  successfully  ')
              
         } catch (error) {

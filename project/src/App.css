@@ -757,6 +757,10 @@ h5{
 
 
 }
+/* mobile view single book */
+.on-mobile{
+  display: none;
+}
 
 
 

@@ -23,6 +23,7 @@ import UserUpdate from './adminpanel/UserUpdate';
 import Updatebook from './adminpanel/Updatebook';
 import Allbook from './adminpanel/Allbook';
 import UserLogin from './adminpanel/User-login';
+import Singlebook from './components/Singlebook';
 
 
 
@@ -68,10 +69,14 @@ const App = () => {
         <Route path='/BookSugguest' element={<BookSugguest/>}></Route>
         <Route path='/NewAdd' element={<NewAdd/>}></Route>
         <Route path='/User' element={<UserInfo/>}></Route>
-        <Route path='/showbook' element={<Showbook/>}></Route>
+
+        <Route path='/showbook' element={<Showbook/>}>
+      
+        </Route>
+        <Route path='/Singlebook/:id/edit' element={<Singlebook/>}></Route>
 
          
-      
+      x
 
 
 

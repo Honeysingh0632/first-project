@@ -25,7 +25,11 @@ router.post('/', upload, (req, res) => {
       .then(data => res.json(data))
       .catch(err => res.status(500).json({ error: err.message }));
   });
-
+  router.get('/addbook/frontend', (req, res) => {
+    AddBook1.find()
+      .then(data => res.json(data))
+      .catch(err => res.status(500).json({ error: err.message }));
+  });
   router.get('/addbook/getapi/front',authMiddleware,adminMiddelware, (req, res) => {
     AddBook1.find()
       .then(data => res.json(data))
