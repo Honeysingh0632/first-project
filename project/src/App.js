@@ -24,6 +24,7 @@ import Updatebook from './adminpanel/Updatebook';
 import Allbook from './adminpanel/Allbook';
 import UserLogin from './adminpanel/User-login';
 import Singlebook from './components/Singlebook';
+import Forgot from './user/Forgot';
 
 
 
@@ -70,9 +71,9 @@ const App = () => {
         <Route path='/NewAdd' element={<NewAdd/>}></Route>
         <Route path='/User' element={<UserInfo/>}></Route>
 
-        <Route path='/showbook' element={<Showbook/>}>
-      
-        </Route>
+        <Route path='/showbook' element={<Showbook/>}></Route>
+        <Route path='/forgotpassword' element={<Forgot/>}></Route>
+
         <Route path='/Singlebook/:id/edit' element={<Singlebook/>}></Route>
 
          
