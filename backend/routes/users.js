@@ -82,6 +82,46 @@ router.delete('/userdata/:id', async (req, res) => {
     }
 });
 
+
+// const bcrypt = require('bcrypt');
+
+router.put('/forgotpassword/:id', async (req, res) => {
+    const { id } = req.params;
+    const updatedData = { ...req.body };
+
+    try {
+        // Check if password is being updated
+        if (updatedData.password) {
+            // Validate password strength (optional, implement your validation logic)
+            if (updatedData.password.length < 6) {
+                return res.status(400).json({ message: "Password must be at least 6 characters long" });
+            }
+
+            // Hash the password
+            const salt = await bcrypt.genSalt(10);
+            updatedData.password = await bcrypt.hash(updatedData.password, salt);
+        }
+
+        // Find user by ID and update
+        const updatedRecord = await User.findByIdAndUpdate(id, updatedData, { new: true, runValidators: true });
+
+        if (!updatedRecord) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json({
+            message: "User updated successfully",
+            data: updatedRecord
+        });
+    } catch (error) {
+        console.error("Error updating user:", error);
+        res.status(500).json({
+            message: "An error occurred while updating the user",
+            error: error.message // Optional: Include only in development for security
+        });
+    }
+});
+
 router.get("/singleuser",authMiddleware, async (req,res) => {
 	try {
 		const userdata = req.user;
