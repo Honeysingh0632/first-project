@@ -136,6 +136,10 @@ li {
   font-size: 40px;
   cursor: pointer;
 }
+/* hover */
+.text-hov:hover {
+  color: blueviolet;
+}
 
 
 

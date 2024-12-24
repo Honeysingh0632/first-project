@@ -25,6 +25,15 @@
     margin: 10px 10px 10px 100px;
 
 }
+.left-31{
+    background-color: rgb(92,43,255);
+    height: 600px;
+   
+    color: white;
+   padding: 20px;
+    margin: 10px 10px 10px 100px;
+
+}
 .right-3{
     margin: 10px 10px 10px 10px;
     padding: 20px;
@@ -50,11 +59,18 @@
     
 
 }
+.input-login1 {
+    background-color: rgb(236, 235, 255);
+    width: 100%;
+    height: 50px;
+    border: none;
+}
 .input-login {
     background-color: rgb(236, 235, 255);
     width: 100%;
     height: 50px;
     border: none;
+
 }
 
 .label {

@@ -9,6 +9,7 @@ import { CgProfile } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
 import { TbLogout2 } from "react-icons/tb";
 import { baseurl } from "../Config/config";
+import { TbPasswordUser } from "react-icons/tb";
 
 
 
@@ -118,11 +119,11 @@ const Rugh = () => {
            
             {isOpen && (
               
-                <div className="dropdown-menu">
-                  <p className="text-light fs-3 "><CgProfile />
+                <div className="dropdown-menu text-start p-3">
+                  <p className="text-light fs-4 "><CgProfile />
                   <Link to='/user' className="link"> My Profile</Link></p>
                   {data ? (
-                                   <p className="text-light">
+                                   <p className="text-light fs-4">
                                       <h3>{data.firstName} {data.lastName}</h3>
                                        <p><strong>Email:</strong> {data.email}</p>
                                            
@@ -135,12 +136,20 @@ const Rugh = () => {
                                     ) : (
                                       <p className="text-light">
                                       
-                                       <p ><Link to="/signup" className="text fs-3">Register or Log in</Link></p>
+                                       <p ><Link to="/signup" className="text fs-4">Register or Log in</Link></p>
                                            
                                    </p>
                                     )}
                   
-                  <p className="text-light fs-3"> <IoSettingsOutline/> Edit profile</p>
+                  
+                  <p className="text-light fs-3 "> <IoSettingsOutline/> <Link to="/Editprofile" 
+                   className="text fs-4 link text-hov">Edit profile</Link></p>
+
+                 <p className="text-light fs-3"> <TbPasswordUser/> <Link to="/Changepassword" 
+                   className="text fs-4 link text-hov">Change Password</Link></p>
+
+                 
+
                    <button onClick={handleLogout} className="logout "><TbLogout2/> Log Out</button> 
                    
                    

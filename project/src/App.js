@@ -26,6 +26,11 @@ import UserLogin from './adminpanel/User-login';
 import Singlebook from './components/Singlebook';
 import Forgot from './user/Forgot';
 
+import Editprofile from './components/Editprofile';
+import ResetPassword from './user/Resetpassword';
+import User from './components/User';
+
+
 
 
 
@@ -69,12 +74,16 @@ const App = () => {
         <Route path='/Service' element={<Services1/>}></Route>
         <Route path='/BookSugguest' element={<BookSugguest/>}></Route>
         <Route path='/NewAdd' element={<NewAdd/>}></Route>
-        <Route path='/User' element={<UserInfo/>}></Route>
+        <Route path='/Changepassword' element={<UserInfo/>}></Route>
+        <Route path='/user' element={<User/>}></Route>
 
         <Route path='/showbook' element={<Showbook/>}></Route>
         <Route path='/forgotpassword' element={<Forgot/>}></Route>
 
         <Route path='/Singlebook/:id/edit' element={<Singlebook/>}></Route>
+        <Route path='/Editprofile' element={<Editprofile/>}/>
+        {/* <Route path='/resetpassword/:resetToken' element={<ResetPassword/>}></Route> */}
+        <Route path="/password-reset/:id/:token" element={<ResetPassword />} />
 
          
       x

@@ -111,7 +111,9 @@ const Login = () => {
                                      {error && <div className={styles.error_msg}>{error}</div>}
 
                                     <button className="login mt-2" onClick={handleSubmit} type="submit">Log in</button>
-                                    {/* <Link to="/forgotpassword">forgot password</Link> */}
+                                  <br/> 
+                                  <br/>
+                                   <Link to="/forgotpassword" className="mt-2 link-0 fs-5">forgot password?</Link>
                                  
 
                                 </form>

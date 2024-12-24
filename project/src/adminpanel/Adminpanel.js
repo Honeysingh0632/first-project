@@ -24,7 +24,7 @@ import { FaHome } from "react-icons/fa";
 const Admin = () => {
 
     const {data,isLoadind} = useAuth();
-    console.log(data,"ndsnjdbn cn n znx kjbjj")
+    // console.log(data,"ndsnjdbn cn n znx kjbjj")
 
     if(isLoadind){
         return <h1>loading..</h1>

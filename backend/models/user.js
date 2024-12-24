@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema({
 	email: { type: String, required: true },
 	password: { type: String, required: true },
 	isAdmin: { type: Boolean, default: false },
+	
+	
+	
+	
 });
 
 userSchema.methods.generateAuthToken = function () {
@@ -24,6 +28,8 @@ userSchema.methods.generateAuthToken = function () {
 				expiresIn: "7d"
 
 			}
+				
+			
 
 		)
 	} catch (error) {

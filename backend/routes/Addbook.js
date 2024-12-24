@@ -37,7 +37,7 @@ router.post('/', upload, (req, res) => {
   });
 
 
-router.get('/addbook/single/:id',authMiddleware,adminMiddelware, async (req, res) => {
+router.get('/addbook/single/:id',authMiddleware, async (req, res) => {
     try {
       const Id = req.params.id;
      const data = await AddBook1.findOne({_id:Id});  

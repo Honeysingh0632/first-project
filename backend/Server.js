@@ -9,7 +9,9 @@ const authRoutes = require("./routes/auth");
 const ContactUser = require('./routes/contact');
 const Booksuggest = require('./routes/books');
 const AddBook = require('./routes/Addbook')
+// const resetpassword= require('./routes/Forgot')
 const authMiddleware = require('./middelware/authmiddelware');
+const passwordResetRoutes = require('./routes/Passwordreset');
 
 
 
@@ -59,6 +61,13 @@ app.use('',ContactUser);
 app.use('/getbook', Booksuggest);
 app.use('/books',Booksuggest);
 app.use('',Booksuggest)
+
+//forgot password
+
+app.use("/api/password-reset", passwordResetRoutes);
+
+
+// app.use('/',resetpassword);
 
 // app.get('/private', authMiddleware, (req, res) => {
 //     res.json({ message: 'This is a private route', user: req.user });
