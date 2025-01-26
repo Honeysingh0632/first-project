@@ -2,6 +2,8 @@ const router = require("express").Router();
 const authMiddleware = require("../middelware/authmiddelware");
 const { User, validate } = require("../models/user");
 const bcrypt = require("bcrypt");
+const Joi = require("joi");
+const passwordComplexity = require("joi-password-complexity");
 
 
 const adminMiddelware = require("../middelware/adminmiddelware");
@@ -157,51 +159,73 @@ const nodemailer = require('nodemailer');
 
 
 
-router.post('/forgotpasswordmail', async (req, res) => {
-    const { email } = req.body;
 
+
+// Endpoint to verify email
+router.post('/password-reset/verify-email',authMiddleware, async (req, res) => {
     try {
-        // Find the user by email
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(404).json({ message: "User with this email does not exist" });
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).send({ message: "Email is required" });
         }
 
-        // Generate a unique reset token
-        const resetToken = crypto.randomBytes(20).toString('hex');
-        const resetTokenExpiry = Date.now() + 3600000; // Token valid for 1 hour
+        // Check if user exists
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).send({ message: "User not found" });
+        }
 
-        user.resetPasswordToken = resetToken;
-        user.resetPasswordExpires = resetTokenExpiry;
-        await user.save();
-
-        // Send the email
-        const resetUrl = `http://198.168.1.6/resetpassword/${resetToken}`;
-        const transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-                user: 'honeysing00632@gmail.com',
-                pass: 'kinj tvev zyvd fwet'
-            }
-        });
-
-        const mailOptions = {
-            to: user.email,
-            from: 'your-email@gmail.com',
-            subject: 'Password Reset Request',
-            text: `You are receiving this because you (or someone else) have requested the reset of your account's password.\n\n
-            Please click on the following link, or paste it into your browser to complete the process:\n\n
-            ${resetUrl}\n\n
-            If you did not request this, please ignore this email.\n`
-        };
-
-        await transporter.sendMail(mailOptions);
-        res.json({ message: "Password reset email sent successfully" });
+        return res.status(200).send({ message: "Email verified successfully" });
     } catch (error) {
-        console.error("Error sending reset email:", error);
-        res.status(500).json({ message: "An error occurred while sending the reset email" });
+        console.error(error);
+        return res.status(500).send({ message: "Internal Server Error" });
     }
 });
+
+// Endpoint to reset password
+router.post('/password-reset', authMiddleware, async (req, res) => {
+    try {
+        const { email, newPassword } = req.body;
+
+        // Validate email and newPassword fields
+        if (!email || !newPassword) {
+            return res.status(400).send({ message: "Email and new password are required." });
+        }
+
+        // Define Joi schema for password validation
+        const passwordSchema = Joi.object({
+            newPassword: passwordComplexity().required().label("Password"),
+        });
+
+        // Validate the password complexity
+        const { error } = passwordSchema.validate({ newPassword });
+        if (error) {
+            console.log("Validation Error:", error.details[0].message);
+            return res.status(400).send({ message: error.details[0].message });
+        }
+
+        // Check if the user exists
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).send({ message: "User not found." });
+        }
+
+        // Hash the new password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        // Update the user's password in the database
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).send({ message: "Password updated successfully." });
+    } catch (error) {
+        console.error("Error in password reset:", error);
+        return res.status(500).send({ message: "Internal Server Error." });
+    }
+});
+
 
 router.post("/forgot-password", async (req, res) => {
     try {

@@ -72,14 +72,18 @@ const AddBook = new mongoose.Schema({
 
 
 })
+const BannerSchema = new mongoose.Schema({
+	banner:{ type: String,  }
+})
 
 //schema
 
+const Banner = mongoose.model('banner',BannerSchema);
 const User1 = mongoose.model("user-details1",UserSchema1)
 
 const Books =mongoose.model("book-sugguest",BookSchema)
 
-const User = mongoose.model("test", userSchema);
+const User = mongoose.model("User-login", userSchema);
 
 const AddBook1 = mongoose.model("add-book",AddBook)
 
@@ -94,4 +98,4 @@ const validate = (data) => {
 	return schema.validate(data);
 };
 
-module.exports = { User,User1,Books,AddBook1, validate };
+module.exports = { User,User1,Books,AddBook1,Banner, validate };

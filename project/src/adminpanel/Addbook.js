@@ -70,7 +70,7 @@ const handleFileChange = e => {
                 <input name="AddAuthorname" required id="AddAuthorname" type="text"
                   value= {formData.AddAuthorname} onChange={handelchange}  className="form-control"></input>
 
-                <label for="file"  className="set-text">Image Link paste here</label>
+                <label for="file"  className="set-text">Image  here</label>
               <input name="image" required  type="file"   onChange={handleFileChange}  
               className="form-control"></input> 
 

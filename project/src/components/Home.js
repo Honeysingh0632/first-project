@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from "react";
 
 import Skelton from "../skeltonloading/Skelton";
 import Showbook from "./Showbook";
+import Home2 from "./Home2";
 const Home1 = lazy( () => import('./Home1'));
 const About1 = lazy( () => import('./About1'));
 const Footer = lazy( () => import('./Footer'));
@@ -30,7 +31,8 @@ const Home = () => {
 
       <Navbar/>
       <Rugh/>
-        <Home1/>
+      <Home1/>
+        {/* <Home2/> */}
         <Showbook/>
         <Services/>
     

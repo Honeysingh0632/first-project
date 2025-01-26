@@ -10,8 +10,12 @@ const ContactUser = require('./routes/contact');
 const Booksuggest = require('./routes/books');
 const AddBook = require('./routes/Addbook')
 // const resetpassword= require('./routes/Forgot')
-const authMiddleware = require('./middelware/authmiddelware');
+// const authMiddleware = require('./middelware/authmiddelware');
 const passwordResetRoutes = require('./routes/Passwordreset');
+const paymentroutes = require('./routes/payment')
+const paymentgetroutes = require('./routes/payment-get')
+const bannerroutes = require('./routes/Banner')
+
 
 
 
@@ -23,12 +27,24 @@ connection();
 
 // middlewares
 app.use(express.json());
+
 app.use(bodyparser.json())
 app.use(cors());
 app.use('/uploads', express.static('uploads'));
 
 
+
+
+
 // routes
+
+
+ app.use('/test',paymentroutes)
+app.use('/payment',paymentgetroutes)
+
+//banner route
+
+app.use('/post',bannerroutes)
 
 //add book 
 

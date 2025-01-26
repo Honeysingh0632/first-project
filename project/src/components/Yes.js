@@ -1,74 +1,42 @@
-import React, { useState } from "react";
+import React from "react";
+import { useAuth } from "../store/auth";
+import { Link } from "react-router-dom"; // Import the Link component
 
 const UserProfile = () => {
-  const [name, setName] = useState("Your Name");
-  const [email, setEmail] = useState("yourname@gmail.com");
-  const [mobile, setMobile] = useState("");
-  const [location, setLocation] = useState("USA");
+  const { data, isLoading } = useAuth(); // Move useAuth to the top level
 
-  const handleSave = () => {
-    // Handle save logic
-    alert("Changes Saved");
-  };
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <div style={styles.container}>
       <div style={styles.header}>
         <div style={styles.profileInfo}>
           <img
-            src="https://via.placeholder.com/50" // Placeholder for profile image
+            src={"https://www.google.com/url?sa=i&url=https%3A%2F%2Ficonduck.com%2Ficons%2F180867%2Fprofile-circle&psig=AOvVaw1Z0xN0DTQf5d7-MbeQd-E4&ust=1735662780795000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKiDg_D1z4oDFQAAAAAdAAAAABAE"} // Use user's profile image if available
             alt="Profile"
             style={styles.profileImage}
           />
-          <div>
-            <h3 style={styles.name}>{name}</h3>
-            <p style={styles.email}>{email}</p>
-          </div>
         </div>
         <button style={styles.closeButton}>✕</button>
       </div>
-      <div style={styles.form}>
-        <div style={styles.field}>
-          <label style={styles.label}>Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            style={styles.input}
-          />
+      {data ? (
+        <div className="mt-4">
+          <h3>
+            {data.firstName} {data.lastName}
+          </h3>
+          <p>
+            <strong>Email:</strong> {data.email}
+          </p>
         </div>
-        <div style={styles.field}>
-          <label style={styles.label}>Email Account</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
-          />
-        </div>
-        <div style={styles.field}>
-          <label style={styles.label}>Mobile Number</label>
-          <input
-            type="text"
-            placeholder="Add number"
-            value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
-            style={styles.input}
-          />
-        </div>
-        <div style={styles.field}>
-          <label style={styles.label}>Location</label>
-          <input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            style={styles.input}
-          />
-        </div>
-      </div>
-      <button onClick={handleSave} style={styles.saveButton}>
-        Save Change
-      </button>
+      ) : (
+        <p className="mt-4 text-danger">
+          <Link to="/signup" className="text fs-3">
+            Register or Log in
+          </Link>
+        </p>
+      )}
     </div>
   );
 };
@@ -98,49 +66,10 @@ const styles = {
     borderRadius: "50%",
     marginRight: "10px",
   },
-  name: {
-    margin: "0",
-    fontSize: "16px",
-    fontWeight: "bold",
-  },
-  email: {
-    margin: "0",
-    fontSize: "14px",
-    color: "#555",
-  },
   closeButton: {
     background: "none",
     border: "none",
     fontSize: "18px",
-    cursor: "pointer",
-  },
-  form: {
-    marginBottom: "20px",
-  },
-  field: {
-    marginBottom: "10px",
-  },
-  label: {
-    display: "block",
-    fontSize: "14px",
-    marginBottom: "5px",
-    color: "#555",
-  },
-  input: {
-    width: "100%",
-    padding: "8px",
-    fontSize: "14px",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-  },
-  saveButton: {
-    width: "100%",
-    padding: "10px",
-    fontSize: "16px",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    border: "none",
-    borderRadius: "4px",
     cursor: "pointer",
   },
 };

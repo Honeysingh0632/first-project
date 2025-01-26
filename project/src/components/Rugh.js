@@ -10,6 +10,8 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { TbLogout2 } from "react-icons/tb";
 import { baseurl } from "../Config/config";
 import { TbPasswordUser } from "react-icons/tb";
+import { FaShoppingCart } from "react-icons/fa";
+
 
 
 
@@ -107,21 +109,21 @@ const Rugh = () => {
               <NavLink to="/BookSugguest" className="a2">Book Sugguest</NavLink>
             </li>
           
-            {/* <NavLink to="/User" className="a2">User info</NavLink> */}
+            <NavLink to="/User-profile" className="a2 hide-on-desktop ">Profile</NavLink>
             <li>
             
+           
              
             
             </li>
-            <div className="profile-dropdown">
+            <div className="profile-dropdown hide-on-mobile">
 
-            <i className="profile" onClick={toggleDropdown}><CgProfile /></i>
+            <i className="profile " onClick={toggleDropdown}><CgProfile /></i>
            
             {isOpen && (
               
                 <div className="dropdown-menu text-start p-3">
-                  <p className="text-light fs-4 "><CgProfile />
-                  <Link to='/user' className="link"> My Profile</Link></p>
+                 
                   {data ? (
                                    <p className="text-light fs-4">
                                       <h3>{data.firstName} {data.lastName}</h3>
@@ -141,12 +143,16 @@ const Rugh = () => {
                                    </p>
                                     )}
                   
-                  
+                  <p className="text-light fs-4 "><CgProfile />
+                  <Link to='/user' className="link text-hov"> My Profile</Link></p>
                   <p className="text-light fs-3 "> <IoSettingsOutline/> <Link to="/Editprofile" 
                    className="text fs-4 link text-hov">Edit profile</Link></p>
 
                  <p className="text-light fs-3"> <TbPasswordUser/> <Link to="/Changepassword" 
                    className="text fs-4 link text-hov">Change Password</Link></p>
+
+                  <p className="text-light fs-3"> <FaShoppingCart/> <Link to="/OrderList" 
+                   className="text fs-4 link text-hov">OrderS</Link></p>
 
                  
 
