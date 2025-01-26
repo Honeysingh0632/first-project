@@ -88,7 +88,12 @@ app.use("/api/password-reset", passwordResetRoutes);
 // app.get('/private', authMiddleware, (req, res) => {
 //     res.json({ message: 'This is a private route', user: req.user });
 //   });
-const yes =  process.env.PORT
+// const yes =  process.env.PORT
 
-const port = yes || 8000;
-app.listen(port, console.log(`Listening on port ${port}...,${yes}`));
+// const port = yes || 8000;
+// app.listen(port, console.log(`Listening on port ${port}...,${yes}`));
+const PORT = process.env.PORT || 8000; // Use PORT from environment variable
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

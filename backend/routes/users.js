@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const authMiddleware = require("../middelware/authmiddelware");
 const { User, validate } = require("../models/user");
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcryptjs');
 const Joi = require("joi");
 const passwordComplexity = require("joi-password-complexity");
 
