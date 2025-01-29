@@ -24,72 +24,92 @@ router.get('/details',authMiddleware, adminMiddelware, async (_req, res) => {
       res.status(500).json({ message: 'Internal Server Error!' }); // Send error response
     }
   });
+
   router.post("/orders", async (req, res) => {
-	try {
-		const instance = new Razorpay({
-			key_id: process.env.KEY_ID,
-			key_secret: process.env.KEY_SECRET,
-		});
+    try {
+        console.log("Request Body:", req.body); // Log incoming request for debugging
+        const { amount, bookDetails } = req.body;
 
-		const options = {
-			amount: req.body.amount * 100,
-			currency: "INR",
-			receipt: crypto.randomBytes(10).toString("hex"),
-		};
+        if (!amount || !bookDetails) {
+            return res.status(400).json({ message: "Amount and book details are required" });
+        }
 
-		instance.orders.create(options, (error, order) => {
-			if (error) {
-				console.log(error);
-				return res.status(500).json({ message: "Something Went Wrong!" });
-			}
-			res.status(200).json({ data: order });
-		});
-	} catch (error) {
-		res.status(500).json({ message: "Internal Server Error!" });
-		console.log(error);
-	}
+        const instance = new Razorpay({
+            key_id: process.env.KEY_ID,
+            key_secret: process.env.KEY_SECRET,
+        });
+
+        const options = {
+            amount: amount * 100, // Convert to paise
+            currency: "INR",
+            receipt: crypto.randomBytes(10).toString("hex"),
+        };
+
+        instance.orders.create(options, (error, order) => {
+            if (error) {
+                console.error("Error creating Razorpay order:", error);
+                return res.status(500).json({ message: "Something went wrong!" });
+            }
+            res.status(200).json({ data: order });
+        });
+    } catch (error) {
+        console.error("Error in /orders API:", error);
+        res.status(500).json({ message: "Internal Server Error!" });
+    }
 });
 
-  router.post("/verify", async (req, res) => {
+
+
+router.post("/verify", async (req, res) => {
     try {
         const {
             razorpay_order_id,
             razorpay_payment_id,
             razorpay_signature,
-            
+            bookDetails,
+            totalPrice,
+            userId,
         } = req.body;
-        
-        // Validate book details
-      
-        // Generate the expected signature
-        const sign = razorpay_order_id + "|" + razorpay_payment_id;
-        const expectedSign = crypto
+
+        // Validate required fields
+        if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !bookDetails || !totalPrice) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        const body = razorpay_order_id + "|" + razorpay_payment_id;
+        const expectedSignature = crypto
             .createHmac("sha256", process.env.KEY_SECRET)
-            .update(sign.toString())
+            .update(body.toString())
             .digest("hex");
 
-        if (razorpay_signature === expectedSign) {
-            // Save payment details to the database
-            const payment = await Payment.create({
-                razorpay_order_id,
+        if (expectedSignature !== razorpay_signature) {
+            return res.status(400).json({ message: "Payment verification failed" });
+        }
+
+        // Update the order in the database
+        const updatedOrder = await Order.findOneAndUpdate(
+            { razorpay_order_id },
+            {
                 razorpay_payment_id,
                 razorpay_signature,
-                
-            });
+                payStatus: "paid",
+                "bookDetails.orderStatus": "Order confirm",
+            },
+            { new: true }
+        );
 
-           
-            return res.status(200).json({
-                message: "Payment verified successfully and order saved",
-                // orderId: order._id, // Send back the order ID
-            });
-        } else {
-            return res.status(400).json({ message: "Invalid signature sent!" });
+        if (!updatedOrder) {
+            return res.status(404).json({ message: "Order not found" });
         }
+
+        res.status(200).json({ message: "Payment verified successfully", order: updatedOrder });
     } catch (error) {
-        console.error("Error:", error);
-        res.status(500).json({ message: "Internal Server Error!",  error });
+        console.error("Error verifying payment:", error);
+        res.status(500).json({ message: "Internal Server Error!" });
     }
 });
+
+
 
 
   

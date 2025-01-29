@@ -29,13 +29,13 @@ function Test() {
     }, [id]);
 
     // Initialize Razorpay payment
-    const initPayment = (data, book) => {
+    const initPayment = (data, book, userId, quantity) => {
         const options = {
-            key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Ensure this is set correctly
+            key: process.env.REACT_APP_RAZORPAY_KEY_ID,
             amount: data.amount,
             currency: data.currency,
             name: book.AddBookname,
-            description: "Test Transaction",
+            description: "Purchase Book",
             image: `${baseurl}${book.image}`,
             order_id: data.id,
             handler: async (response) => {
@@ -44,20 +44,19 @@ function Test() {
                         razorpay_order_id: response.razorpay_order_id,
                         razorpay_payment_id: response.razorpay_payment_id,
                         razorpay_signature: response.razorpay_signature,
-                        bookId: book._id,
                         bookDetails: {
-                            name: bookData.AddBookname,
-                            author: bookData.AddAuthorname,
-                            image: bookData.image,
-                            price: bookData.bookprice,
-                            oldPrice: bookData.bookoldprice,
-                            description: bookData.bookdesc,
+                            name: book.AddBookname,
+                            author: book.AddAuthorname,
+                            image: book.image,
+                            price: book.bookprice,
+                            oldPrice: book.bookoldprice,
+                            description: book.bookdesc,
                         },
-                        quantity,
-                        totalPrice: book.bookprice * quantity,
+                        userId, // Include the logged-in user ID
+                        totalPrice: book.bookprice * quantity, // Calculate total price
                     };
-
-                    const result = await axios.post(`${baseurl}/test/verify`, payload);
+    
+                    const result = await axios.post(`${baseurl}/payment/verify`, payload);
                     toast.success("Payment verified successfully");
                     console.log("Payment verification response:", result.data);
                 } catch (error) {
@@ -70,27 +69,37 @@ function Test() {
         const rzp1 = new window.Razorpay(options);
         rzp1.open();
     };
+    
+    
 
     // Handle payment initiation
     const handlePayment = async (book) => {
         try {
-            const orderUrl = `${baseurl}/test/orders`;
+            const orderUrl = `${baseurl}/payment/orders`;
             const totalAmount = book.bookprice * quantity; // Calculate total price
-            const { data } = await axios.post(orderUrl, { 
-                amount: totalAmount, 
+    
+            const payload = {
+                amount: totalAmount,
                 bookDetails: {
                     name: book.AddBookname,
                     author: book.AddAuthorname,
                     image: book.image,
                     price: book.bookprice,
-                }
-            });
+                },
+            };
+    
+            console.log("Payload for /orders API:", payload); // Log payload for debugging
+    
+            const { data } = await axios.post(orderUrl, payload);
+    
+            console.log("Order creation response:", data); // Log response for debugging
             initPayment(data.data, book);
         } catch (error) {
             console.error("Error initiating payment:", error);
             toast.error("Error in initiating payment");
         }
     };
+    
 
     // Handle quantity increment
     const incrementQuantity = () => setQuantity((prev) => prev + 1);
