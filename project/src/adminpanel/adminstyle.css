@@ -15,6 +15,8 @@
 
   background-color: rgb(92,43,255);
   color: white;
+  overflow: auto; /* Enables both horizontal & vertical scrolling */
+  zoom: 1; /* Adjust zoom if needed */
 
  }
  .set-table {
@@ -103,5 +105,13 @@
 .btn-success:hover {
   background: #218838;
 }
-
-
+.admin {
+  overflow: auto; /* Enables both horizontal & vertical scrolling */
+  zoom: 1; /* Adjust zoom if needed */
+}
+@media (min-width: 1024px) {
+  .admin {
+    overflow: auto;
+    zoom: 1.1; /* Adjust zoom as needed */
+  }
+}

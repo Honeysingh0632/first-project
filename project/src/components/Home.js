@@ -26,6 +26,9 @@ const Home = () => {
     return(
         <> 
     {/* <Skelton/> */}
+    <div className="responsive">
+
+    
          
       <Suspense fallback={<Skelton/>}>
 
@@ -41,17 +44,18 @@ const Home = () => {
       <About1/>
       <Contact1/>
       <Price/>
-      <div className="container">
+      {/* <div className="container">
         <div className="row">
             <div className="col-lg">
-                <Last/>
+              
             </div>
         </div>
       </div>
-    
+     */}
+       <Last/>
     <Footer/>
       </Suspense>
-        
+        </div>
 
       
         </>
