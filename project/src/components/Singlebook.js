@@ -8,14 +8,13 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 
 function Singlebook() {
-    // const { id } = useParams();
-    // const [bookData, setBookData] = useState(null);
-    // const [quantity, setQuantity] = useState(1); // Initialize quantity state
-
-    const { id } = useParams(); // Get the book ID from the URL
-    const [bookData, setBookData] = useState(null);
-    const [quantity, setQuantity] = useState(1); // Initialize quantity state
-
+       const { id } = useParams(); // Get the book ID from the URL
+       const [bookData, setBookData] = useState(null);
+       const [quantity, setQuantity] = useState(1);
+       const [userId, setUserId] = useState(null);
+       const [email, setEmail] = useState('');
+       const [firstName, setfirstName] = useState('');
+       const [lastName, setlastName] = useState('');
     // Fetch book details on component mount
     useEffect(() => {
         const fetchData = async () => {
@@ -34,8 +33,40 @@ function Singlebook() {
         fetchData();
     }, [id]);
 
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    toast.error("User not logged in!");
+                    return;
+                }
+   
+                const headers = { Authorization: `${token}` };
+                const response = await axios.get(`${baseurl}/singleuser`, { headers });
+                
+                if (response.data.message) {
+                    setUserId(response.data.message._id);
+                    setEmail(response.data.message.email);
+                    setfirstName(response.data.message.firstName);
+                    setlastName(response.data.message.lastName);
+                    console.log("Fetched user ID:", response.data.message._id); // Check if user ID is fetched
+                } else {
+                    toast.error("User ID missing. Please log in again.");
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                toast.error("Failed to fetch user details");
+            }
+        };
+   
+        fetchUserData();
+    }, []);
+
     // Initialize Razorpay payment
     const initPayment = (data, book) => {
+        console.log(`${baseurl}${book.image}`, process.env.REACT_APP_RAZORPAY_KEY_ID);
+        
         const options = {
             key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Ensure this is set correctly
             amount: data.amount,
@@ -43,9 +74,11 @@ function Singlebook() {
             name: book.AddBookname,
             description: "Test Transaction",
             image: `${baseurl}${book.image}`,
+            
             order_id: data.id,
             handler: async (response) => {
                 try {
+                   
                     const payload = {
                         razorpay_order_id: response.razorpay_order_id,
                         razorpay_payment_id: response.razorpay_payment_id,
@@ -59,11 +92,13 @@ function Singlebook() {
                             oldPrice: bookData.bookoldprice,
                             description: bookData.bookdesc,
                         },
+                        user:{ userId,email,firstName,lastName}, // Make sure this is not undefined
                         quantity,
-                        totalPrice: book.bookprice * quantity,
+                        totalPrice: bookData.bookprice * quantity,  
                     };
+                    
 
-                    const result = await axios.post(`${baseurl}/test/verify`, payload);
+                    const result = await axios.post(`${baseurl}/payment/verify`, payload);
                     toast.success("Payment verified successfully");
                     console.log("Payment verification response:", result.data);
                 } catch (error) {
@@ -78,25 +113,31 @@ function Singlebook() {
     };
 
     // Handle payment initiation
-    const handlePayment = async (book) => {
-        try {
-            const orderUrl = `${baseurl}/test/orders`;
-            const totalAmount = book.bookprice * quantity; // Calculate total price
-            const { data } = await axios.post(orderUrl, { 
-                amount: totalAmount, 
-                bookDetails: {
-                    name: book.AddBookname,
-                    author: book.AddAuthorname,
-                    image: book.image,
-                    price: book.bookprice,
-                }
-            });
-            initPayment(data.data, book);
-        } catch (error) {
-            console.error("Error initiating payment:", error);
-            toast.error("Error in initiating payment");
-        }
-    };
+  const handlePayment = async (book) => {
+     if (!userId) {
+         toast.error("User not logged in!");
+         return;
+     }
+     
+     // Continue with the payment flow only if userId is available
+     try {
+         const orderUrl = `${baseurl}/payment/orders`;
+         const totalAmount = book.bookprice * quantity; // Calculate total price
+         const { data } = await axios.post(orderUrl, { 
+             amount: totalAmount, 
+             bookDetails: {
+                 name: book.AddBookname,
+                 author: book.AddAuthorname,
+                 image: book.image,
+                 price: book.bookprice,
+             }
+         });
+         initPayment(data.data, book);
+     } catch (error) {
+         console.error("Error initiating payment:", error);
+         toast.error("Error in initiating payment");
+     }
+ };
 
  
   

@@ -9,7 +9,7 @@ const Payment = require("../models/payment"); // Ensure this is the correct mode
 const Book = require("../models/payment"); // Adjust the model name as needed
 
 // Get all payment details (Admin only)
-router.get("/details", authMiddleware, adminMiddelware, async (_req, res) => {
+router.get("/details", authMiddleware, async (_req, res) => {
     try {
         const payments = await Payment.find(); // Fetch all payment records
         res.status(200).json(payments);
@@ -135,7 +135,7 @@ router.delete('/delete/:id', async (req, res) => {
     }
   });
   //single data route 
-  router.get('/order-single/:id',authMiddleware ,adminMiddelware, async (req, res) => {
+  router.get('/order-single/:id',authMiddleware , async (req, res) => {
     try {
       const Id = req.params.id;
      const data = await Payment.findOne({_id:Id});  

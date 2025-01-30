@@ -21,9 +21,9 @@ function OrderList() {
                 const response = await axios.get(`${baseurl}/payment/details`, { headers });
                 console.log("API Response:", response.data); // Debugging log
                 setOrders(response.data);
-                setLoading(false);
             } catch (error) {
                 console.error("Error fetching orders:", error);
+            } finally {
                 setLoading(false);
             }
         };
@@ -39,40 +39,54 @@ function OrderList() {
         <>
             <Navbar />
             <Rugh />
-            <div className="order-list-container">
-                {orders.map((order) => (
-                    <div key={order._id} className="order-card">
-                        <div className="order-header">
-                            <h4>Order ID: {order.razorpay_order_id}</h4>
-                            {/* Check if bookDetails and orderStatus exist */}
-                            {order.bookDetails?.orderStatus ? (
-                                <span
-                                    className={`order-status ${order.bookDetails.orderStatus
-                                        .toLowerCase()
-                                        .replace(/\s+/g, "-")}`}
-                                >
-                                    {order.bookDetails.orderStatus}
-                                </span>
-                            ) : (
-                                <span className="order-status undefined">Status Unavailable</span>
-                            )}
-                        </div>
-                        <div className="order-item">
-                            <img
-                                src={`${baseurl}${order.bookDetails?.image}`}
-                                alt={order.bookDetails?.name || "Book Image"}
-                            />
-                            <div className="order-item-details">
-                                <h5>{order.bookDetails?.name || "Book Name Unavailable"}</h5>
-                                <p>Author: {order.bookDetails?.author || "Author Unavailable"}</p>
-                                <p>Price: ₹{order.bookDetails?.price || "N/A"}</p>
-                                <p>Quantity: {order.quantity || 0}</p>
-                                <p>Total: ₹{order.totalPrice || "N/A"}</p>
-                            </div>
-                        </div>
-                        <button className="order-detail-button "><Link to={`/Ordersingle/${order._id}/`} className="text-light">Detail</Link></button>
+            <div className="order-list-container  ">
+                {orders.length === 0 ? (
+                    // ✅ Show this message when no orders are found
+                    <div className="no-orders  text-center p-5 mt-3">
+                        <h2>No orders found</h2>
+                        <p>Looks like you haven't placed any orders yet.</p>
+                        <Link to="/NewAdd" className="btn btn-primary">
+                            Explore Books
+                        </Link>
                     </div>
-                ))}
+                ) : (
+                    orders.map((order) => (
+                        <div key={order._id} className="order-card">
+                            <div className="order-header">
+                                <h4>Order ID: {order.razorpay_order_id}</h4>
+                                {order.bookDetails?.orderStatus ? (
+                                    <span
+                                        className={`order-status ${order.bookDetails.orderStatus
+                                            .toLowerCase()
+                                            .replace(/\s+/g, "-")}`}
+                                    >
+                                        {order.bookDetails.orderStatus}
+                                    </span>
+                                ) : (
+                                    <span className="order-status undefined">Status Unavailable</span>
+                                )}
+                            </div>
+                            <div className="order-item">
+                                <img
+                                    src={`${baseurl}${order.bookDetails?.image}`}
+                                    alt={order.bookDetails?.name || "Book Image"}
+                                />
+                                <div className="order-item-details">
+                                    <h5>{order.bookDetails?.name || "Book Name Unavailable"}</h5>
+                                    <p>Author: {order.bookDetails?.author || "Author Unavailable"}</p>
+                                    <p>Price: ₹{order.bookDetails?.price || "N/A"}</p>
+                                    <p>Quantity: {order.quantity || 0}</p>
+                                    <p>Total: ₹{order.totalPrice || "N/A"}</p>
+                                </div>
+                            </div>
+                            <button className="order-detail-button">
+                                <Link to={`/Ordersingle/${order._id}/`} className="text-light">
+                                    Detail
+                                </Link>
+                            </button>
+                        </div>
+                    ))
+                )}
             </div>
             <Footer />
         </>

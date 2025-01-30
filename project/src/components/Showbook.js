@@ -70,7 +70,7 @@ const Showbook = () => {
                        <br/>
                        <button className="btn btn-dark" >
                          <Link to={`/Singlebook/${value._id}/edit`} className="link" >Read Now</Link></button>
-                        <button className="btn btn-primary"> <Link to={`/payment/${value._id}/`} className="link" >Read Now</Link></button>
+                        {/* <button className="btn btn-primary"> <Link to={`/payment/${value._id}/`} className="link" >Read Now</Link></button> */}
 
                     </div>
                

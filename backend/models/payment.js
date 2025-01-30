@@ -1,3 +1,4 @@
+const { required } = require('joi');
 const mongoose = require('mongoose');
 
 // const paymentSchema = new mongoose.Schema({
@@ -34,17 +35,33 @@ const paymentSchema = new mongoose.Schema({
       price: { type: Number, required: true },
       oldPrice: { type: Number },
       description: { type: String },
-      quantity: {
-        type: Number,
-        required: true,
-    },
+     
       orderStatus: {
         type: String,
         enum: ['Order confirm', 'shipped', 'out for delivery', 'delivered', 'returned' ,'not delivered'],
         default: 'Order confirm', // Default status when payment is successful
     }
   },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Reference to User
+  user:{
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,  // Ensure it's required only if necessary
+         ref: 'User'
+
+        },email:{ 
+            type: String, required: true
+        },
+         firstName:{ 
+            type: String, required: true},
+
+        lastName:{
+            type:String,required:true
+        }
+        
+            
+  },
+  
+
   quantity: {
       type: Number,
       required: true,

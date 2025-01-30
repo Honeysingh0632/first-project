@@ -42,6 +42,7 @@ import OrderList from './order/OrderList';
 import OrderSingle from './order/Order-single';
 import Banner from './adminpanel/Banner';
 import Bannerlist from './adminpanel/bannerlist';
+import Testorder from './test/Testorder';
 
 
 
@@ -95,6 +96,8 @@ const App = () => {
 
         <Route path='/showbook' element={<Showbook/>}></Route>
         <Route path='/OrderList' element={<OrderList/>}></Route>
+        <Route path='/testOrderList' element={<Testorder/>}></Route>
+
         <Route path='/forgotpassword' element={<Forgot/>}></Route>
         <Route path='/reset-password/:id/' element={<Reasetpassword1/>}></Route>
 
