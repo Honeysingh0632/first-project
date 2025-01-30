@@ -203,7 +203,7 @@ li {
     font-size: 100%;
  }
  .card1 {
-    margin-top: 60px;
+    /* margin-top: 60px; */
  }
 
  .responsive-text {
@@ -295,7 +295,24 @@ li {
     grid-column: 2/4;
     position: relative;
     z-index: 99;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
   }
+  .mobile-menu-link.active {
+    transform: translateY(0);
+  }
+
+  /* Animated Hamburger and Close Icon */
+.animated-hamburger, .animated-close {
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.5s ease-in-out;
+}
+
+.animated-close {
+  color: white;
+  transform: rotate(180deg);
+}
 
   .mobile-menu-link {
     background-color: rgb(69, 57, 248);

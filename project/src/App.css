@@ -787,7 +787,37 @@ h5{
 .on-mobile{
   display: none;
 }
+@media (max-width: 998px){
+  .card-book {
+    width: 90%;
+  }
+  .card-price {
+    width: 90%;
+    margin: auto;
+    margin-top: 30px;
 
+
+  }
+  .card1{
+    width: 90%;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 0;
+  }
+  
+  .service-text{
+    font-size: 5vh;
+
+  }
+  .mt-5 {
+    margin-top: 0;
+  }
+  .o{
+    margin-right:300px !important ;
+  }
+ 
+
+}
 
 
 

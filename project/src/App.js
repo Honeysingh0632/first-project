@@ -135,6 +135,7 @@ const App = () => {
             {/* <Route path='update/addbook/:id/edit' element={<Test/>}></Route> */}
 
           </Route>
+          <Route path="*" element={<Navigate to="/" />} />
 
          
                 
@@ -152,6 +153,5 @@ const App = () => {
 };
 
 export default App;
-
 
 

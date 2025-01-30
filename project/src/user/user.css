@@ -49,7 +49,7 @@
 }
 .link-0 {
     color: rgb(92,43,255);
-    font-size: 26px;
+    /* font-size: 26px; */
     font-weight: 400;
 }
 
@@ -105,6 +105,11 @@
 
 
 @media (max-width: 998px)  {
+
+    .right-3{
+        margin: 0;
+        padding: 0;
+    }
     .login-main1{
      width: fit-content;
     }
@@ -135,14 +140,19 @@
         display: block;
         width: 100%;
     }
-    .link-1,.link-0{
-        font-size: 18px;
+    .link-1{
+        font-size: 13px;
+    }
+    .link-0{
+        font-size: 20px;
+
     }
     .yup {
         width: 100%;
     }
     .login{
-        width:80%;
+        width:100%;
+        
     }
     .logout{
         width: 50%;
