@@ -2,14 +2,14 @@ const mongoose =require('mongoose');
 
 const connection = async () => {
   try {
-    await mongoose.connect(process.env.DB);
-    console.log("Connected to MongoDB");
+    await mongoose.connect(process.env.db);
+    console.log("Connected to MongoDB",`${mongoose.connection.host}`);
   } catch (error) {
-    console.error("Error connecting to MongoDB:", error.message);
+    console.error("Error connecting to MongoDB:", error.message,`${mongoose.connection.host}`,process.env.db);
   }
 };
 
-//  const connection =  mongoose.connect(process.env.DB, {
+//  const connection =  mongoose.connect(process.env.db, {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true,
 // })

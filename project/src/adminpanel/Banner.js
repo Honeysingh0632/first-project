@@ -1,74 +1,78 @@
-import React,{useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { baseurl } from "../Config/config";
+import "./adminstyle.css";
 
-const Banner =() => {
+const Banner = () => {
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const navigate = useNavigate();
 
-
-    const [formData,newset] =useState(
-         {  
-           
-            image:null,
-          })
-    
-    const navigate =useNavigate();
-
-
-    const submit = async e => {
-        e.preventDefault();
-        const data = new FormData();
-     
-        data.append('image', formData.image);
-   
-
-    
-        try {
-          const res = await axios.post(`${baseurl}/post/banner`, data, {
-            headers: { 'Content-Type': 'multipart/form-data' },
-           
-          });
-          console.log(res.data); 
-          toast.success('add book Successfully  ')
-          navigate('/AdminPanel/Bannerlist');
-        } catch (err) {
-           console.error(err);
-        }
-      };
-
-    // const handelchange = e => {
-    //     newset({ ...formData, [e.target.name]: e.target.value });
-    //   };
-
-const handleFileChange = e => {
-    newset({ ...formData, image: e.target.files[0] });
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
+    }
   };
 
-       
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!image) {
+      toast.error("Please select an image.");
+      return;
+    }
+    
+    const data = new FormData();
+    data.append("image", image);
 
-    return(
-        <>
-        <div className="p-2">
+    try {
+      const res = await axios.post(`${baseurl}/post/banner`, data, {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+          const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          setUploadProgress(percent);
+        },
+      });
+      console.log(res.data);
+      toast.success("Banner added successfully");
+      navigate("/AdminPanel/Bannerlist");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to upload image.");
+    }
+  };
 
-        <h1 className="ms-5 mt-2">Add Banner</h1>
-        <form className="ms-5 mt-4">
-            
-             
-
-                <label for="file"  className="set-text">Add Banner here</label>
-              <input name="image" required  type="file"   onChange={handleFileChange}  
-              className="form-control"></input> 
-
-               <button type="submit"  className="btn btn-success mt-2" onClick={submit} >Add book</button>
-              
-                 </form>
-
+  return (
+    <div className="banner-container">
+      <h1>Add Banner</h1>
+      <form onSubmit={submit} className="upload-box">
+        <div className="drop-area">
+          {preview ? (
+            <img src={preview} alt="Preview" className="preview-image" />
+          ) : (
+            <p>Drop your image here, or <span className="browse">browse</span></p>
+          )}
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="file-input"
+          />
         </div>
-       
-                
-        </>
-    )
-}
+        {uploadProgress > 0 && (
+          <div className="progress-bar">
+            <div className="progress" style={{ width: `${uploadProgress}%` }}></div>
+          </div>
+        )}
+        <button type="submit" className="btn btn-success mt-2">Upload Banner</button>
+      </form>
+    </div>
+  );
+};
 
 export default Banner;
