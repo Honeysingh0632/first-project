@@ -1,6 +1,10 @@
 /* google font */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap');
+
 
 
 /* src/components/Navbar.css */
@@ -812,9 +816,17 @@ h5{
   .mt-5 {
     margin-top: 0;
   }
-  .o{
-    margin-right:300px !important ;
+  .send-icon{
+    margin-right: 70px;
   }
+  .for-email{
+    width: 100%;
+  }
+  .for-email::placeholder {
+  
+   font-size: 18px;
+  }
+
  
 
 }
