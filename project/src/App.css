@@ -796,17 +796,17 @@ h5{
 }
 @media (max-width: 998px){
   .card-book {
-    width: 90%;
+    width: 100%;
   }
   .card-price {
-    width: 90%;
+    width: 100%;
     margin: auto;
     margin-top: 30px;
 
 
   }
   .card1{
-    width: 90%;
+    width: 100%;
     margin: auto;
     margin-bottom: 20px;
     margin-top: 0;
