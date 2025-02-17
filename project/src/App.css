@@ -833,6 +833,12 @@ h5{
  
 
 }
+@media (max-width: 400px) { 
+  body {
+    overflow-x: hidden;
+  }
+}
+
 
 
 
